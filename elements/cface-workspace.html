@@ -1,0 +1,17 @@
+<polymer-element name="cface-workspace" attributes="toolbarWidth" fit layout horizontal>
+  <template>
+    <style>
+      ::content cface-toolbar {
+        width: {{toolbarWidth}}px;
+      }
+    </style>
+    <core-drag-drop></core-drag-drop>
+    <content></content>
+  </template>
+
+  <script>
+    Polymer({
+      toolbarWidth: 200
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,17 @@
+{
+  "name": "cface-workspace",
+  "version": "0.0.0",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "cface-workspace.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.4.0",
+    "core-drag-drop": "Polymer/core-drag-drop#~0.4.1"
+  },
+  "devDependencies": {
+    "polymer-test-tools": "Polymer/polymer-test-tools#^0.4.0"
+  }
+}

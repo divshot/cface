@@ -1,0 +1,80 @@
+<link rel="import" href="../../core-drag-drop/core-drag-drop.html">
+
+<polymer-element name="cface-palette" attributes="title collapsed" layout vertical noscript>
+  <template>
+    <style>
+      header {
+        background: blue;
+        color: white;
+      }
+      
+      #content {
+        overflow: auto;
+        background: white;
+      }
+      
+      :host([collapsed]) #content {
+        display: none;
+      }
+    </style>
+    
+    <header id="titlebar" layout horizontal on-click="{{toggleCollapsed}}">
+      <span id="title" flex>{{title}}</span>
+    </header>
+    <section id="content">
+      <content></content>
+    </section>
+  </template>
+  <script>
+    (function() {
+      var _inRect = function(x, y, rect) {
+        return x >= rect.left && 
+               x <= rect.right && 
+               y >= rect.top &&
+               y <= rect.bottom
+      }
+      
+      Polymer({
+        publish: {
+          dragging: false  
+        },
+        attached: function() {
+          // TODO: make this less ugly
+          this.parentNode.parentNode.addEventListener('drag-start', this.dragStart.bind(this));
+        },
+        dragStart: function(e) {
+          this.dragging = true;
+          if (_inRect(e.detail.event.pageX, e.detail.event.pageY, this.$.titlebar.getBoundingClientRect())) {
+            console.log("Started Drag...");
+            e.detail.drag = this.drag.bind(this);
+            e.detail.drop = this.drop.bind(this);
+            
+            e.detail.avatar.style.cssText = "width: " + this.clientWidth + "px; height: " + this.clientHeight + "px; background: rgba(255,0,0,0.2); border: 1px solid red;";
+          }
+        },
+        drag: function(dragInfo) {
+          var overEl = document.elementFromPoint(dragInfo.p.x, dragInfo.p.y);
+          if (this.over != overEl) {
+            console.log(overEl);
+            this.over = overEl;
+          }
+        },
+        drop: function(e) {
+          console.log("DROPPED!");
+          this.async(function(){
+            this.dragging = false; 
+          });
+        },
+        toggleCollapsed: function() {
+          if (this.dragging) return;
+          
+          if (this.collapsed) {
+            this.removeAttribute('collapsed');
+          } else {
+            this.setAttribute('collapsed', 'true');
+          }
+        }
+      })
+    })();
+  </script>
+</polymer-element>
